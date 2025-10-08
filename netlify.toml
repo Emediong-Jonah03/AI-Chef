@@ -1,6 +1,6 @@
 [build]
   base = "react-practise"
-  command = "npm run build"
+  command = "npm install && npm run build"
   publish = "dist"
 
 [dev]
