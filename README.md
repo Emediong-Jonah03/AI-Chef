@@ -1,0 +1,1 @@
+This is an Ai chef web app that takes a list of input of ingredient then sends the list to and AI api which suggest a receipe to cook from the list and possible adds new Ingredient
