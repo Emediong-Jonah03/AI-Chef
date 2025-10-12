@@ -1,5 +1,5 @@
 {
-  "name": "react-practise",
+  "name": "AI chef app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dompurify": "^3.2.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
+    "typography": "^0.16.24"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

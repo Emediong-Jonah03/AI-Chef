@@ -23,7 +23,7 @@ function AIResponse({ ingredients, onRecipeGenerated }) {
                 messages: [
                     {
                         role: "user",
-                        content: `Generate a detailed recipe using these ingredients: ${ingredients.join(", ")}. Include title, ingredients list, and step by step instructions.`,
+                        content: `Generate a detailed recipe using these ingredients: ${ingredients.join(", ")}. Include title, ingredients list, and step by step instructions where necessary add emoji's.`,
                     },
                 ],
                 model: "zai-org/GLM-4.6:novita",
