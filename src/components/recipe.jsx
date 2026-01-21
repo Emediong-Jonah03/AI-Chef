@@ -1,24 +1,13 @@
 import ReactMarkdown from 'react-markdown'
 
 
-function Recipe({recipe}) {
-    if (!recipe) return null
+function Recipe({ recipe }) {
+  if (!recipe) return null;
 
-    // Format the recipe text with markdown
-    const formattedRecipe = `
-# ${recipe.title}
-
-## Ingredients
-${recipe.ingredients}
-
-## Instructions
-${recipe.steps}
-    `
-
-    return (
-        <div className="mt-5 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md prose prose-slate dark:prose-invert max-w-none">
-            <ReactMarkdown>{recipe}</ReactMarkdown>
-        </div>
-    )
+  return (
+    <div className="mt-5 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md prose prose-slate dark:prose-invert max-w-none">
+      <ReactMarkdown>{recipe}</ReactMarkdown>
+    </div>
+  );
 }
 export default Recipe;

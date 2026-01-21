@@ -1,6 +1,6 @@
 import React from "react";
 
-const IngredietsList = React.forwardRef(function IngredietsList({ showRecipe }, ref) {
+const IngredientsList = React.forwardRef(function IngredientsList({ showRecipe }, ref) {
   return (
     <section>
       <div className="flex justify-between items-center bg-gray-200 dark:bg-green-700 rounded py-4 px-4 w-[97%] flex-wrap">
@@ -22,4 +22,4 @@ const IngredietsList = React.forwardRef(function IngredietsList({ showRecipe }, 
   );
 });
 
-export default IngredietsList;
+export default IngredientsList;

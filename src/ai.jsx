@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function AIResponse({ ingredients, onRecipeGenerated }) {
+function AIResponse({ ingredients, onRecipeGenerated, onError }) {
     async function query(data, signal) {
         const response = await fetch(
             "https://router.huggingface.co/v1/chat/completions",
@@ -59,7 +59,7 @@ function AIResponse({ ingredients, onRecipeGenerated }) {
             });
 
         return () => controller.abort();
-    }, [ingredients, onRecipeGenerated]);
+    }, [ingredients, onRecipeGenerated, onError]);
 
     return null;
 } 

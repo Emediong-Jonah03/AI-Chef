@@ -1,6 +1,6 @@
 import React from "react";
 import Recipe from "./recipe";
-import IngredietsList from "./ingredientList";
+import IngredientsList from "./ingredientList";
 import AIResponse from "../ai";
 import LoadingSpinner from "./LoadingSpinner";
 import { useTheme } from "./ThemeProvider.jsx";
@@ -12,6 +12,7 @@ function Form() {
   const [recipeShown, setRecipeShown] = React.useState(false);
   const [recipe, setRecipe] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   const recipeSection = React.useRef(null);
 
@@ -19,6 +20,13 @@ function Form() {
     setRecipe(generatedRecipe);
     setRecipeShown(true);
     setIsLoading(false);
+    setError(null);
+  }
+
+  function handleRecipeError(message) {
+    setError(message);
+    setIsLoading(false);
+    setIsGeneratingRecipe(false);
   }
 
   const [isGeneratingRecipe, setIsGeneratingRecipe] = React.useState(false);
@@ -27,6 +35,7 @@ function Form() {
     setRecipeShown(true);
     setIsGeneratingRecipe(true);
     setIsLoading(true);
+    setError(null);
   }
 
   const ingredientItemList = ingredient.map((item) => (
@@ -69,7 +78,7 @@ function Form() {
             <input
               type="text"
               placeholder="Example: Onions"
-              className="border border-gray-30 text-[1.8rem] sm:text-[1.1rem] placeholder:text-[1.2rem] placeholder:sm:text-[1.1rem] placeholder:dark:text-gray-400 px-2 w-8/12 shadow"
+              className="border border-gray-300 text-[1.8rem] sm:text-[1.1rem] placeholder:text-[1.2rem] placeholder:sm:text-[1.1rem] placeholder:dark:text-gray-400 px-2 w-8/12 shadow"
               aria-label="Add ingredient"
               name="ingredient"
               style={{
@@ -83,36 +92,53 @@ function Form() {
               + Add ingredients
             </button>
           </div>
+          {ingredientItemList.length === 0 && (
+            <p className="text-neutral-500 dark:text-gray-400 text-center mt-4">
+              Add ingredients above to get started.
+            </p>
+          )}
+
           {ingredientItemList.length > 0 && (
             <div>
-              <h3 className="text-2xl text-bold text-center dark:text-gray-200">
-                Ingrediets at hand:
+              <h3 className="text-2xl font-bold text-center dark:text-gray-200">
+                Ingredients at hand:
               </h3>
               {ingredientItemList.length < 6 && (
                 <p className="text-neutral-500 dark:text-gray-400 text-left">
-                  Add at least four(6) ingredients
+                  Add at least 6 ingredients to generate a recipe ({6 - ingredientItemList.length} more).
                 </p>
               )}
             </div>
           )}
 
-          <ul className="w-full max-w-md text-[1.2rem] sm:text-[1.1rem] mb-5 list-disc marker:text-[#F44336] dark:text-gray-200">
-            {ingredientItemList}
-          </ul>
+          {ingredientItemList.length > 0 && (
+            <ul className="w-full max-w-md text-[1.2rem] sm:text-[1.1rem] mb-5 list-disc marker:text-[#F44336] dark:text-gray-200">
+              {ingredientItemList}
+            </ul>
+          )}
+
+          {error && (
+            <div
+              className="w-full max-w-md mb-4 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
 
           {ingredientItemList.length > 5 && (
-            <IngredietsList showRecipe={toggleShowRecipe} ref={recipeSection} />
+            <IngredientsList showRecipe={toggleShowRecipe} ref={recipeSection} />
           )}
           {isLoading && <LoadingSpinner />}
           {recipeShown && !isLoading && <Recipe recipe={recipe} />}
-          {recipeShown && <Recipe recipe={recipe} />}
           {isGeneratingRecipe && (
             <AIResponse
               ingredients={ingredient.map((item) => item.text)}
-              onRecipeGenerated={(generatedRecipe) => {
-                handleRecipeGenerated(generatedRecipe);
+              onRecipeGenerated={(r) => {
+                handleRecipeGenerated(r);
                 setIsGeneratingRecipe(false);
               }}
+              onError={handleRecipeError}
             />
           )}
         </div>
