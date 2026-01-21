@@ -6,7 +6,7 @@ function Header() {
 
   return (
    <header style={{
-      backgroundColor: darkMode ? '#000000' : '#F44336',
+      backgroundColor: darkMode ? '#1a202c' : '#F44336',
       color: 'white',
       padding: '0.3rem 2.5rem 0.3rem 0.6rem',
       boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',

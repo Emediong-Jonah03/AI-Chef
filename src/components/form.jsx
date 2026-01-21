@@ -3,11 +3,8 @@ import Recipe from "./recipe";
 import IngredientsList from "./ingredientList";
 import AIResponse from "../ai";
 import LoadingSpinner from "./LoadingSpinner";
-import { useTheme } from "./ThemeProvider.jsx";
-
 
 function Form() {
-  const { darkMode } = useTheme();
   const [ingredient, setIngredient] = React.useState([]);
   const [recipeShown, setRecipeShown] = React.useState(false);
   const [recipe, setRecipe] = React.useState("");
@@ -78,15 +75,12 @@ function Form() {
             <input
               type="text"
               placeholder="Example: Onions"
-              className="border border-gray-300 text-[1.8rem] sm:text-[1.1rem] placeholder:text-[1.2rem] placeholder:sm:text-[1.1rem] placeholder:dark:text-gray-400 px-2 w-8/12 shadow"
+              className="border border-gray-300 text-black dark:text-gray-100 text-[1.8rem] sm:text-[1.1rem] placeholder:text-[1.2rem] placeholder:sm:text-[1.1rem] placeholder:dark:text-gray-400 px-2 w-8/12 shadow"
               aria-label="Add ingredient"
               name="ingredient"
-              style={{
-                color: darkMode ? "#F44336" : "black",
-              }}
             />
             <button
-              className="bg-black dark:bg-gray-700 text-white px-2 shadow rounded cursor-pointer hover:opacity-65 text-sm text-center py-1.5"
+              className="bg-black dark:bg-gray-600 text-white px-2 shadow rounded cursor-pointer hover:opacity-65 dark:hover:opacity-90 text-sm text-center py-1.5"
               type="submit"
             >
               + Add ingredients

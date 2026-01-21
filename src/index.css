@@ -6,9 +6,9 @@
   html {
     @apply transition-colors duration-200;
   }
-  
+
   html.dark {
-    @apply bg-gray-900;
+    background-color: #1a202c;
   }
 
   body {
@@ -16,6 +16,7 @@
   }
 
   .dark body {
-    @apply bg-gray-900 text-white;
+    background-color: #1a202c;
+    @apply text-white;
   }
 }
