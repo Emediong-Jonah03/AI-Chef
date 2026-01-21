@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 function AIResponse({ ingredients, onRecipeGenerated }) {
-    async function query(data) {
+    async function query(data, signal) {
         const response = await fetch(
             "https://router.huggingface.co/v1/chat/completions",
             {
@@ -10,29 +10,50 @@ function AIResponse({ ingredients, onRecipeGenerated }) {
                     "Content-Type": "application/json",
                 },
                 method: "POST",
+                signal,
                 body: JSON.stringify(data),
             }
         );
-        const result = await response.json();
-        return result;
+        if (!response.ok) {
+            throw new Error(`Request failed with status ${response.status}`);
+        }
+        return response.json();
     }
 
+
     useEffect(() => {
-        if (ingredients && ingredients.length > 0) {
-            query({ 
+        if (!ingredients || ingredients.length === 0) return;
+
+        const controller = new AbortController();
+
+        query(
+            {
                 messages: [
                     {
                         role: "user",
-                        content: `Generate a detailed recipe using these ingredients: ${ingredients.join(", ")}. Include title, ingredients list, and step by step instructions where necessary add emoji's.`,
+                        content: `Generate a detailed recipe using these ingredients: ${ingredients.join(", ")}. Include title, ingredients list, and step by step instructions`,
                     },
                 ],
-                model: "zai-org/GLM-4.6:novita",
-            }).then((response) => {
-                if (response.choices && response.choices[0]) {
-                    onRecipeGenerated(response.choices[0].message.content);
+                model: "zai-org/GLM-4.7-Flash:novita",
+            },
+            controller.signal
+        )
+            .then((response) => {
+                const content = response?.choices?.[0]?.message?.content;
+                if (content) {
+                    onRecipeGenerated(content);
+                } else {
+                    onRecipeGenerated("No recipe generated. Please try again.");
+                }
+            })
+            .catch((error) => {
+                if (error.name !== "AbortError") {
+                    console.error("Recipe generation failed", error);
+                    onRecipeGenerated("Failed to generate recipe. Please try again.");
                 }
             });
-        }
+
+        return () => controller.abort();
     }, [ingredients, onRecipeGenerated]);
 
     return null;
