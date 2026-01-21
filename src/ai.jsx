@@ -11,7 +11,6 @@ function isNetworkError(err) {
 
 function AIResponse({ ingredients, onRecipeGenerated, onError }) {
     async function query(data, signal) {
-        if (!import.meta.env.VITE_HF_TOKEN) throw new Error("Missing VITE_HF_TOKEN in env");
         const res = await fetch("https://router.huggingface.co/v1/chat/completions", {
             headers: { Authorization: `Bearer ${import.meta.env.VITE_HF_TOKEN}`, "Content-Type": "application/json" },
             method: "POST",
@@ -24,6 +23,12 @@ function AIResponse({ ingredients, onRecipeGenerated, onError }) {
 
     useEffect(() => {
         if (!ingredients?.length) return;
+
+        if (!import.meta.env.VITE_HF_TOKEN) {
+            onError?.("API token not set. Add VITE_HF_TOKEN to your .env (local) or your host's environment (e.g. Netlify), then restart.");
+            return;
+        }
+
         const controller = new AbortController();
         const { signal } = controller;
 
