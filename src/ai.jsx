@@ -14,6 +14,11 @@ function AIResponse({ ingredients, onRecipeGenerated }) {
                 body: JSON.stringify(data),
             }
         );
+        
+        if (!import.meta.env.VITE_HF_TOKEN) {
+            throw new Error("Missing VITE_HF_TOKEN in env");
+          }
+          
         if (!response.ok) {
             throw new Error(`Request failed with status ${response.status}`);
         }
